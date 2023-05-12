@@ -8,4 +8,8 @@ export class DummySessionManager implements SessionManager {
   getSessions(): number {
     throw new Error('This method should not be used')
   }
+
+  logout(): boolean {
+    throw new Error('This method should not be used')
+  }
 }

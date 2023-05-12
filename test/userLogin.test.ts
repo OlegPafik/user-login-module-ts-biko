@@ -3,6 +3,7 @@ import { User } from '../src/user'
 import { DummySessionManager } from '../src/sessionManager/_doubles/DummySessionManager'
 import { StubSessionManager } from '../src/sessionManager/_doubles/StubSessionManager'
 import { FakeSessionManager } from '../src/sessionManager/_doubles/FakeSessionManager'
+import { FacebookSessionManager } from '../src/sessionManager/facebookSessionManager'
 
 describe('User Service Login', () => {
   it('should log a user', () => {
@@ -51,7 +52,7 @@ describe('User Service Login', () => {
 
     const loginResponse = service.login('user1Name', 'correctPassword')
 
-    expect(loginResponse).toEqual('Login correcto')
+    expect(loginResponse).toEqual('Login correct')
   })
 
   it('should not log a user if username or password are incorrect', () => {
@@ -59,6 +60,29 @@ describe('User Service Login', () => {
 
     const loginResponse = service.login('user1Name', 'incorrectPassword')
 
-    expect(loginResponse).toEqual('Login incorrecto')
+    expect(loginResponse).toEqual('Login incorrect')
+  })
+
+  it('should logout a user if user is already logged in', () => {
+    const sessionManager = new FacebookSessionManager()
+    jest.spyOn(sessionManager, 'logout')
+    const service = new UserLoginService(sessionManager)
+    const user = new User('user1')
+    service.manualLogin(user)
+
+    service.logout(user)
+
+    expect(sessionManager.logout).toHaveBeenCalled()
+  })
+
+  it('should not logout a user if user is not found', () => {
+    const sessionManager = new FacebookSessionManager()
+    jest.spyOn(sessionManager, 'logout')
+    const service = new UserLoginService(sessionManager)
+    const user = new User('user1')
+
+    service.logout(user)
+
+    expect(sessionManager.logout).not.toHaveBeenCalled()
   })
 })

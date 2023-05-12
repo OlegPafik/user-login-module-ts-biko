@@ -8,4 +8,8 @@ export class StubSessionManager implements SessionManager {
   getSessions(): number {
     return 44
   }
+
+  logout(): boolean {
+    throw new Error('This method should not be used')
+  }
 }

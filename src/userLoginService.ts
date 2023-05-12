@@ -26,12 +26,28 @@ export class UserLoginService {
     const isUserLogged = this.sessionManager.login(userName, password)
 
     if (!isUserLogged) {
-      return 'Login incorrecto'
+      return 'Login incorrect'
     }
 
     this.loggedUsers.push(new User(userName))
-    return 'Login correcto'
+    return 'Login correct'
   }
+
+  public logout = (user: User): string => {
+    if (!this.isUserAlreadyLogged(user)) {
+      return 'User not found'
+    }
+
+    this.sessionManager.logout(user.getUserName())
+    this.deleteUser(user)
+
+    return 'User logged out'
+  }
+
+  private deleteUser = (user: User) =>
+    this.loggedUsers.splice(
+      this.loggedUsers.findIndex(userToDelete => userToDelete.getUserName() === user.getUserName())
+    )
 
   private isUserAlreadyLogged = (user: User) =>
     this.loggedUsers.some(loggedUser => loggedUser.getUserName() === user.getUserName())
