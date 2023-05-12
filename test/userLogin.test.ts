@@ -1,6 +1,7 @@
 import { UserLoginService } from '../src/userLoginService'
 import { User } from '../src/user'
 import { DummySessionManager } from '../src/sessionManager/_doubles/DummySessionManager'
+import { StubSessionManager } from '../src/sessionManager/_doubles/StubSessionManager'
 
 describe('User Service Login', () => {
   it('should log a user', () => {
@@ -37,10 +38,10 @@ describe('User Service Login', () => {
   })
 
   it('should get sessions from external service', () => {
-    const service = new UserLoginService(new DummySessionManager())
+    const service = new UserLoginService(new StubSessionManager())
 
     const externalSessions = service.getExternalSessions()
 
-    expect(externalSessions).toEqual(7)
+    expect(externalSessions).toEqual(44)
   })
 })
