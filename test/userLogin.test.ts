@@ -2,6 +2,7 @@ import { UserLoginService } from '../src/userLoginService'
 import { User } from '../src/user'
 import { DummySessionManager } from '../src/sessionManager/_doubles/DummySessionManager'
 import { StubSessionManager } from '../src/sessionManager/_doubles/StubSessionManager'
+import { FacebookSessionManager } from '../src/sessionManager/facebookSessionManager'
 
 describe('User Service Login', () => {
   it('should log a user', () => {
@@ -43,5 +44,21 @@ describe('User Service Login', () => {
     const externalSessions = service.getExternalSessions()
 
     expect(externalSessions).toEqual(44)
+  })
+
+  it('should log a user if username and password are correct', () => {
+    const service = new UserLoginService(new FacebookSessionManager())
+
+    const loginResponse = service.login('user1Name', 'user1Password')
+
+    expect(loginResponse).toEqual('Login correcto')
+  })
+
+  it('should not log a user if username or password are not correct', () => {
+    const service = new UserLoginService(new FacebookSessionManager())
+
+    const loginResponse = service.login('user1Name', 'user1Password')
+
+    expect(loginResponse).toEqual('Login incorrecto')
   })
 })

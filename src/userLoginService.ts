@@ -22,6 +22,16 @@ export class UserLoginService {
 
   public getExternalSessions = (): number => this.sessionManager.getSessions()
 
+  public login = (userName: string, password: string): string => {
+    const isUserLogged = this.sessionManager.login(userName, password)
+
+    if (!isUserLogged) {
+      return 'Login incorrecto'
+    }
+
+    return 'Login correcto'
+  }
+
   private isUserAlreadyLogged = (user: User) =>
     this.loggedUsers.some(loggedUser => loggedUser.getUserName() === user.getUserName())
 }
