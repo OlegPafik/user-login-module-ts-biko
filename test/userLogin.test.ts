@@ -22,4 +22,17 @@ describe('User Service Login', () => {
         expect(response).toEqual('User already logged in')
     })
 
+    it('should get logged users', () => {
+        const service = new UserLoginService()
+        const user1 = new User('User1')
+        const user2 = new User('User2')
+        const expectedUsers = [user1,user2]
+        service.manualLogin(user1)
+        service.manualLogin(user2)
+
+       const loggedUsers = service.getLoggedUsers()
+
+        expect(loggedUsers).toHaveLength(2)
+        expect(loggedUsers).toEqual(expectedUsers)
+    })
 })
