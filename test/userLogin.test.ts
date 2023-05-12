@@ -85,4 +85,32 @@ describe('User Service Login', () => {
 
     expect(sessionManager.logout).not.toHaveBeenCalled()
   })
+
+  it('should not logout user if user is not logged in in Facebook', () => {
+    const sessionManager = new FacebookSessionManager()
+    jest.spyOn(sessionManager, 'logout').mockImplementation(() => {
+      throw new Error('user_not_logged_in')
+    })
+    const service = new UserLoginService(sessionManager)
+    const user = new User('user1')
+    service.manualLogin(user)
+
+    const response = service.logout(user)
+
+    expect(response).toEqual('User not logged in Facebook')
+  })
+
+  it('should logout user if user is logged in in Facebook', () => {
+    const sessionManager = new FacebookSessionManager()
+    jest.spyOn(sessionManager, 'logout').mockImplementation(() => {
+      throw new Error('service_not_available')
+    })
+    const service = new UserLoginService(sessionManager)
+    const user = new User('user1')
+    service.manualLogin(user)
+
+    const response = service.logout(user)
+
+    expect(response).toEqual('Service not available')
+  })
 })

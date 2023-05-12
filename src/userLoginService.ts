@@ -38,10 +38,16 @@ export class UserLoginService {
       return 'User not found'
     }
 
-    this.sessionManager.logout(user.getUserName())
-    this.deleteUser(user)
-
-    return 'User logged out'
+    try {
+      this.sessionManager.logout(user.getUserName())
+      this.deleteUser(user)
+      return 'User logged out'
+    } catch (e) {
+      if (e.message === 'service_not_available') {
+        return 'Service not available'
+      }
+      return 'User not logged in Facebook'
+    }
   }
 
   private deleteUser = (user: User) =>
