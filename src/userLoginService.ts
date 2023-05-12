@@ -29,6 +29,7 @@ export class UserLoginService {
       return 'Login incorrecto'
     }
 
+    this.loggedUsers.push(new User(userName))
     return 'Login correcto'
   }
 
