@@ -1,9 +1,10 @@
 import { UserLoginService } from '../src/userLoginService'
 import { User } from '../src/user'
+import { DummySessionManager } from '../src/sessionManager/_doubles/DummySessionManager'
 
 describe('User Service Login', () => {
   it('should log a user', () => {
-    const service = new UserLoginService()
+    const service = new UserLoginService(new DummySessionManager())
     const user = new User('User1')
 
     const response = service.manualLogin(user)
@@ -12,7 +13,7 @@ describe('User Service Login', () => {
   })
 
   it('should check if user is already logged', () => {
-    const service = new UserLoginService()
+    const service = new UserLoginService(new DummySessionManager())
     const user = new User('User1')
     service.manualLogin(user)
 
@@ -22,7 +23,7 @@ describe('User Service Login', () => {
   })
 
   it('should get logged users', () => {
-    const service = new UserLoginService()
+    const service = new UserLoginService(new DummySessionManager())
     const user1 = new User('User1')
     const user2 = new User('User2')
     const expectedUsers = [user1, user2]
@@ -36,7 +37,7 @@ describe('User Service Login', () => {
   })
 
   it('should get sessions from external service', () => {
-    const service = new UserLoginService()
+    const service = new UserLoginService(new DummySessionManager())
 
     const externalSessions = service.getExternalSessions()
 
