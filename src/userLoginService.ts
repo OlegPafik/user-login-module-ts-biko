@@ -5,7 +5,7 @@ export class UserLoginService {
 
     public manualLogin = (user: string): string => {
         if (user === "Oleg") {
-            return "user logged"
+            return "User already logged in"
         } else {
             return "user not logged"
         }
