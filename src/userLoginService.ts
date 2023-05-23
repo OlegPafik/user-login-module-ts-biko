@@ -4,7 +4,10 @@ export class UserLoginService {
     private loggedUsers: User[] = []
 
     public manualLogin = (user: User): string => {
-        return "dummy"
+        if (this.loggedUsers.includes(user)) {
+            return "dummy"
+        }
+        return 'User succesfully logged in'
     }
 
 
