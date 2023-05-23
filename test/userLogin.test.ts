@@ -13,7 +13,7 @@ class FacebookSessionManagerDummy implements SessionManager {
         throw new Error("Should not be used.")
     }
 }
-class FacebookSessionManagerStub implements SessionManager {
+class FacebookSessionManagerStubWithGetSessions implements SessionManager {
     login(userName: string, password: string): boolean {
         //Imaginad que esto en realidad realiza una llamada al API de Facebook
         throw new Error("Should not be used.")
@@ -21,6 +21,28 @@ class FacebookSessionManagerStub implements SessionManager {
     getSessions(): number {
         //Imaginad que esto en realidad realiza una llamada al API de Facebook
         return 55
+    }
+}
+
+class FacebookSessionManagerStubWithLoginTrue implements SessionManager {
+    login(userName: string, password: string): boolean {
+        //Imaginad que esto en realidad realiza una llamada al API de Facebook
+        return true
+    }
+    getSessions(): number {
+        //Imaginad que esto en realidad realiza una llamada al API de Facebook
+        throw new Error("Should not be used.")
+    }
+}
+
+class FacebookSessionManagerStubWithLoginFalse implements SessionManager {
+    login(userName: string, password: string): boolean {
+        //Imaginad que esto en realidad realiza una llamada al API de Facebook
+        return false
+    }
+    getSessions(): number {
+        //Imaginad que esto en realidad realiza una llamada al API de Facebook
+        throw new Error("Should not be used.")
     }
 }
 
@@ -62,9 +84,9 @@ describe('User Service Login', () => {
         expect(response).toHaveLength(2)
         expect(response).toEqual(expectedUsers)
     })
-    it('getExternalSessions returns the active sesions indicated by FacebookSessionManager.getSessions()', () => {
+    it('step 3, getExternalSessions returns the active sesions indicated by FacebookSessionManager.getSessions()', () => {
         // Arrange
-        const facebookService = new FacebookSessionManagerStub()
+        const facebookService = new FacebookSessionManagerStubWithGetSessions()
         const ourService = new UserLoginService(facebookService)
         // Act
         const activeSessionsFacebook = facebookService.getSessions()
@@ -72,4 +94,19 @@ describe('User Service Login', () => {
         // Assert
         expect(activeSessionsReturned).toEqual(activeSessionsFacebook)
     })
+    describe('Step 4, Facebook login', () => {
+        it('FacebookSessionManager.login in our userLoginService returns true'
+        , () => {
+            // Arrange
+            const facebookService = new FacebookSessionManagerStubWithLoginTrue()
+            const ourService = new UserLoginService(facebookService)
+            // Act
+            const responseFacebook = facebookService.login("Usuariooo","Password99")
+            const responseOurService = ourService.login("Usuariooo","Password99")
+            // Assert
+            expect(responseOurService).toEqual(responseFacebook)
+        })
+    })
 })
+
+

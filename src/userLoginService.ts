@@ -17,6 +17,10 @@ export class UserLoginService {
         this.loggedUsers.push(user)
         return 'User succesfully logged in'
     }
+
+    public login(userName: string, password: string): boolean {
+        return this.service.login(userName, password);
+    }
     
     public getLoggedUsers = (): User[] => {
         return this.loggedUsers
