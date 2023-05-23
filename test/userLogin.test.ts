@@ -34,6 +34,7 @@ describe('User Service Login', () => {
         service.manualLogin(user2)
         const response = service.getLoggedUsers()
         // Assert
+        expect(response).toHaveLength(2)
         expect(response).toEqual(expectedUsers)
     })
 })
