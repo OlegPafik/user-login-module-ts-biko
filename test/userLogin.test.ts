@@ -12,4 +12,15 @@ describe('User Service Login', () => {
         // Assert
         expect(response).toEqual('User succesfully logged in')
     })
+    it('should not log an already logged user', () => {
+        // Arrange
+        const service = new UserLoginService()
+        const userLogged = new User('User1')
+        const userLoggedAgain = new User('User1')
+        // Act
+        const response1 = service.manualLogin(userLogged)
+        const response2 = service.manualLogin(userLoggedAgain)
+        // Assert
+        expect(response2).toEqual('User already logged in')
+    })
 })

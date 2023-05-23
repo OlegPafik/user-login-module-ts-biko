@@ -4,9 +4,10 @@ export class UserLoginService {
     private loggedUsers: User[] = []
 
     public manualLogin = (user: User): string => {
-        if (this.loggedUsers.includes(user)) {
-            return "dummy"
+        if (this.isUserAlreadyLogged(user)) {
+            return 'User already logged in'
         }
+        this.loggedUsers.push(user)
         return 'User succesfully logged in'
     }
 
