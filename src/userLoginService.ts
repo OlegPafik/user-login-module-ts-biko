@@ -3,8 +3,12 @@ import {User} from "./user"
 export class UserLoginService {
     private loggedUsers: User[] = []
 
-    public manualLogin = (): string => {
-        return "user logged"
+    public manualLogin = (user: string): string => {
+        if (user === "") {
+            return "user logged"
+        } else {
+            return "user not logged"
+        }
     }
 
 
