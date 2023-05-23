@@ -116,6 +116,30 @@ describe('User Service Login', () => {
             // Assert
             expect(responseOurService).toEqual("Login incorrecto")
         })
+        it('if external login service return incorrect our login service does not create a user'
+        , () => {
+            // Arrange
+            const facebookService = new FacebookSessionManagerStubWithLoginFalse()
+            const ourService = new UserLoginService(facebookService)
+            const expectedLoggedUsers = []
+            // Act
+            ourService.login("Usuariooo","Password99")
+            const response = ourService.getLoggedUsers()
+            // Assert
+            expect(response).toEqual(expectedLoggedUsers)
+        })
+        it('if external login service return correct our login service does create a user'
+        , () => {
+            // Arrange
+            const facebookService = new FacebookSessionManagerStubWithLoginTrue()
+            const ourService = new UserLoginService(facebookService)
+            const expectedLoggedUsers = ["Usuariooo"]
+            // Act
+            ourService.login("Usuariooo","Password99")
+            const response = ourService.getLoggedUsers()
+            // Assert
+            expect(response).toEqual(expectedLoggedUsers)
+        })
     })
 })
 
