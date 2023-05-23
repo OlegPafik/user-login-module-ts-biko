@@ -47,7 +47,6 @@ class FacebookSessionManagerStubWithLoginFalse implements SessionManager {
 }
 
 
-
 describe('User Service Login', () => {
     it('should log a user', () => {
         // Arrange
@@ -107,16 +106,15 @@ describe('User Service Login', () => {
             // Assert
             expect(responseOurService).toEqual("Login correcto")
         })
-        it('if external login service returns incorrect our login service also returns false'
+        it('if external login service returns incorrect our login service also returns Login incorrecto'
         , () => {
             // Arrange
             const facebookService = new FacebookSessionManagerStubWithLoginFalse()
             const ourService = new UserLoginService(facebookService)
             // Act
-            const responseFacebook = facebookService.login("Usuariooo","Password99")
             const responseOurService = ourService.login("Usuariooo","Password99")
             // Assert
-            expect(responseOurService).toEqual(responseFacebook)
+            expect(responseOurService).toEqual("Login incorrecto")
         })
     })
 })

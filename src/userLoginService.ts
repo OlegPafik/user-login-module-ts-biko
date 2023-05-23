@@ -18,8 +18,12 @@ export class UserLoginService {
         return 'User succesfully logged in'
     }
 
-    public login(userName: string, password: string): boolean {
-        return this.service.login(userName, password);
+    public login(userName: string, password: string): string {
+        if (this.service.login(userName, password)) {
+            return "Login correcto"
+        } else {
+            return "Login incorrecto"
+        };
     }
     
     public getLoggedUsers = (): User[] => {
