@@ -1,5 +1,6 @@
+import { FacebookSessionManager } from "../src/facebookSessionManager";
 import { User } from "../src/user";
-import {UserLoginService} from "../src/userLoginService";
+import { UserLoginService } from "../src/userLoginService";
 
 
 describe('User Service Login', () => {
@@ -36,5 +37,15 @@ describe('User Service Login', () => {
         // Assert
         expect(response).toHaveLength(2)
         expect(response).toEqual(expectedUsers)
+    })
+    it('getExternalSessions returns the active sesions indicated by FacebookSessionManager.getSessions()', () => {
+        // Arrange
+        const ourService = new UserLoginService()
+        const facebook = new FacebookSessionManager()
+        // Act
+        const activeSessionsFacebook = facebook.getSessions()
+        const activeSessionsReturned = ourService.getExternalSessions()
+        // Assert
+        expect(activeSessionsReturned).toEqual(activeSessionsFacebook)
     })
 })
