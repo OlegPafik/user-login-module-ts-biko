@@ -133,12 +133,18 @@ describe('User Service Login', () => {
             // Arrange
             const facebookService = new FacebookSessionManagerStubWithLoginTrue()
             const ourService = new UserLoginService(facebookService)
-            const expectedLoggedUsers = ["Usuariooo"]
+            const expectedLoggedUserName = "Usuariooo"
+            const expectedLoggedUser = new User(expectedLoggedUserName)
+            const expectedLoggedUsers = [expectedLoggedUser]
             // Act
             ourService.login("Usuariooo","Password99")
-            const response = ourService.getLoggedUsers()
+            const loggedUsers = ourService.getLoggedUsers()
+            const firstLoggedUser = loggedUsers[0]
+            const loggedUserName = loggedUsers[0].getUserName()
             // Assert
-            expect(response).toEqual(expectedLoggedUsers)
+            expect(loggedUsers).toEqual(expectedLoggedUsers)
+            //expect(firstLoggedUser).toEqual(expectedLoggedUser)
+            expect(loggedUserName).toEqual(expectedLoggedUserName)
         })
     })
 })

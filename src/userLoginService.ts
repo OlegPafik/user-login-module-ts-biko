@@ -20,6 +20,8 @@ export class UserLoginService {
 
     public login(userName: string, password: string): string {
         if (this.service.login(userName, password)) {
+            const newUser: User = new User(userName);
+            this.loggedUsers.push(newUser)
             return "Login correcto"
         } else {
             return "Login incorrecto"
