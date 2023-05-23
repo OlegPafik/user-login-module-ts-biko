@@ -18,9 +18,22 @@ describe('User Service Login', () => {
         const userLogged = new User('User1')
         const userLoggedAgain = new User('User1')
         // Act
-        const response1 = service.manualLogin(userLogged)
+        service.manualLogin(userLogged)
         const response2 = service.manualLogin(userLoggedAgain)
         // Assert
         expect(response2).toEqual('User already logged in')
+    })
+    it('should return the LoggedUsers array', () => {
+        // Arrange
+        const service = new UserLoginService()
+        const user1 = new User('User1')
+        const user2 = new User('User2')
+        const expectedUsers = [user1, user2]
+        // Act
+        service.manualLogin(user1)
+        service.manualLogin(user2)
+        const response = service.getLoggedUsers()
+        // Assert
+        expect(response).toEqual(expectedUsers)
     })
 })
