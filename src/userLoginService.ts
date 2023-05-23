@@ -1,8 +1,14 @@
 import { FacebookSessionManager } from "./facebookSessionManager"
 import {User} from "./user"
+import {SessionManager} from "./sessionManager"
 
 export class UserLoginService {
     private loggedUsers: User[] = []
+    private service: SessionManager
+
+    constructor(service: SessionManager) {
+        this.service = service;
+    }
 
     public manualLogin = (user: User): string => {
         if (this.isUserAlreadyLogged(user)) {
@@ -16,10 +22,8 @@ export class UserLoginService {
         return this.loggedUsers
     }
     public getExternalSessions = (): number => {
-        const facebook = new FacebookSessionManager()
-        return facebook.getSessions()
+        return this.service.getSessions()
     }
-
 
     private isUserAlreadyLogged = (user: User)=> this.loggedUsers.some(loggedUser => loggedUser.getUserName() === user.getUserName())
 }
