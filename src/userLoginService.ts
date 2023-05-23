@@ -11,7 +11,9 @@ export class UserLoginService {
         return 'User succesfully logged in'
     }
     
-    public getLoggedUsers = (): User[] => {return []}
+    public getLoggedUsers = (): User[] => {
+        return this.loggedUsers
+    }
 
     private isUserAlreadyLogged = (user: User)=> this.loggedUsers.some(loggedUser => loggedUser.getUserName() === user.getUserName())
 }
