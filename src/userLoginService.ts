@@ -4,7 +4,7 @@ export class UserLoginService {
     private loggedUsers: User[] = []
 
     public manualLogin = (user: string): string => {
-        if (user === "") {
+        if (user === "Oleg") {
             return "user logged"
         } else {
             return "user not logged"
